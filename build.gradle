@@ -1,0 +1,74 @@
+plugins {
+    id "com.qixalite.spongestart" version "1.5.2"
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+    //id 'org.spongepowered.plugin' version '0.5.1'
+}
+
+defaultTasks 'build', 'shadowJar'
+
+group = 'com.nguyenquyhy'
+version = '2.4.0'
+description = 'A plugin to connect Discord and Minecraft'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'Sonatype'
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+    maven {
+        name 'sponge'
+        url 'http://repo.spongepowered.org/maven'
+    }
+    maven {
+        name 'javacord-repo'
+        url 'http://repo.bastian-oppermann.de'
+    }
+}
+
+spongestart{
+    eula true
+
+    //optional configs
+    //spongeVanillaBuild 'LATEST'
+    spongeVanillaBuild '1.10.2-5.1.0-BETA-366'
+    //spongeForgeBuild 'LATEST'
+    //forgeServerFolder 'run'
+    //vanillaServerFolder 'run/vanilla'
+}
+
+dependencies {
+    compile('org.spongepowered:spongeapi:4.1.0')
+    //compile('org.spongepowered:spongeapi:5.0.0')
+    compile files('libs/javacord-2.0.14-shaded.jar')
+//    compile('de.btobastian.javacord:javacord:2.0.11:shaded')
+//    compile "com.github.austinv11:Discord4j:2.4.9:shaded"
+//    compile 'org.apache.httpcomponents:httpcore:4.3.2'
+//    compile 'org.apache.httpcomponents:httpclient:4.3.3'
+//    compile 'org.java-websocket:Java-WebSocket:1.3.0'
+//    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+//    compile 'net.jodah:typetools:0.4.3'
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+shadowJar {
+    dependencies {
+        include dependency('commons-logging:commons-logging')
+        include dependency('org.apache.commons:commons-lang3')
+        include dependency('org.apache.httpcomponents:httpcore')
+        include dependency('org.apache.httpcomponents:httpclient')
+//        include dependency('com.googlecode.json-simple:json-simple')
+//        include dependency('org.java-websocket:Java-WebSocket')
+//        include dependency('net.jodah:typetools')
+
+        relocate 'org.apache.http', 'shaded.apache.http'
+        relocate 'org.apache.commons', 'shaded.apache.commons'
+    }
+}
