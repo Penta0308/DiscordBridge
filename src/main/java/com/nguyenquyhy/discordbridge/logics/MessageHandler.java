@@ -51,6 +51,8 @@ public class MessageHandler {
                     && message.getChannelReceiver() != null
                     && message.getChannelReceiver().getId().equals(channelConfig.discordId)) {
 
+                mod.discordCommandHandler.discordMessageReceived(message, mod, logger, config);
+
                 // Role base configuration
                 ChannelMinecraftConfigCore minecraftConfig = channelConfig.minecraft;
                 if (channelConfig.minecraft.roles != null) {

@@ -75,6 +75,8 @@ public class ConfigHandler {
                 channel.discord.serverUpMessage = ConfigUtil.readString(legacyConfigNode, "MessageInDiscordServerUp", "Server has started.");
                 channel.discord.serverDownMessage = ConfigUtil.readString(legacyConfigNode, "MessageInDiscordServerDown", "Server has stopped.");
                 channel.minecraft.chatTemplate = ConfigUtil.readString(legacyConfigNode, "MessageInMinecraftTemplate", "&7<%a> &f%s");
+                config.jcsConfig.ban.banDuration = Integer.parseInt(ConfigUtil.readString(legacyConfigNode, "TempBanDuration", "0"));
+                config.jcsConfig.wsc.port = Integer.parseInt(ConfigUtil.readString(legacyConfigNode, "WebServerPort", "0"));
             } else {
                 logger.info("Discord Bridge will not run until you have edited this file!");
             }

@@ -2,6 +2,10 @@ package com.nguyenquyhy.discordbridge;
 
 import com.google.inject.Inject;
 import com.nguyenquyhy.discordbridge.database.IStorage;
+import com.nguyenquyhy.discordbridge.discordcommands.DiscordCommandHandler;
+import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetTPSCommand;
+import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetTimeCommand;
+import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetUsersCommand;
 import com.nguyenquyhy.discordbridge.listeners.ChatListener;
 import com.nguyenquyhy.discordbridge.listeners.ClientConnectionListener;
 import com.nguyenquyhy.discordbridge.listeners.DeathListener;
@@ -32,7 +36,7 @@ import java.util.*;
 /**
  * Created by Hy on 1/4/2016.
  */
-@Plugin(id = "discordbridge", name = "Discord Bridge", version = "2.3.0",
+@Plugin(id = "discordbridge", name = "Discord Bridge", version = "4.0.0",
         description = "A Sponge plugin to connect your Minecraft server with Discord", authors = {"Hy", "Mohron"})
 public class DiscordBridge {
 
@@ -58,6 +62,12 @@ public class DiscordBridge {
 
     private static DiscordBridge instance;
 
+    public TempBanThread TempBan;
+
+    public DiscordCommandHandler discordCommandHandler;
+
+    protected WebServer server;
+
     @Listener
     public void onPreInitialization(GamePreInitializationEvent event) throws IOException, ObjectMappingException {
         instance = this;
@@ -66,16 +76,26 @@ public class DiscordBridge {
         Sponge.getEventManager().registerListeners(this, new ChatListener());
         Sponge.getEventManager().registerListeners(this, new ClientConnectionListener());
         Sponge.getEventManager().registerListeners(this, new DeathListener());
+
+        TempBan = new TempBanThread();
+        discordCommandHandler = new DiscordCommandHandler();
+        server = new WebServer();
     }
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
         CommandRegistry.register();
         LoginHandler.loginBotAccount();
+
+        TempBan.start();
+        registerDiscordCommands();
+        server.start();
     }
 
     @Listener
     public void onServerStop(GameStoppingServerEvent event) {
+        TempBan.stop();
+
         if (botClient != null) {
             for (ChannelConfig channelConfig : config.channels) {
                 if (StringUtils.isNotBlank(channelConfig.discordId)
@@ -159,5 +179,11 @@ public class DiscordBridge {
                 humanClients.remove(player);
             }
         }
+    }
+
+    private void registerDiscordCommands() {
+        discordCommandHandler.registerDiscordCommand("time", new DiscordGetTimeCommand());
+        discordCommandHandler.registerDiscordCommand("tick", new DiscordGetTPSCommand());
+        discordCommandHandler.registerDiscordCommand("users", new DiscordGetUsersCommand());
     }
 }

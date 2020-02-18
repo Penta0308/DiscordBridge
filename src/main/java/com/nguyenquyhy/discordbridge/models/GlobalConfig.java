@@ -16,12 +16,14 @@ public class GlobalConfig {
      */
     public GlobalConfig() {
         channels = new ArrayList<>();
-        tokenStore = TokenStore.JSON;
         prefixBlacklist = new ArrayList<>();
         ignoreBots = false;
         botDiscordGame = "";
         minecraftBroadcastTemplate = "&2<BROADCAST> %s";
         botToken = "";
+        tokenStore = TokenStore.JSON;
+        jcsConfig = new JCSConfig();
+        jcsConfig.initializeDefault();
     }
 
     @Setting
@@ -38,10 +40,13 @@ public class GlobalConfig {
     public String minecraftBroadcastTemplate;
     @Setting
     public List<ChannelConfig> channels;
+    @Setting
+    public JCSConfig jcsConfig;
 
     public void migrate() {
         if (channels != null) {
             channels.forEach(ChannelConfig::migrate);
         }
+        if (jcsConfig != null) jcsConfig.migrate();
     }
 }

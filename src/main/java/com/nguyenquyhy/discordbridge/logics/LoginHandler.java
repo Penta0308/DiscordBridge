@@ -61,6 +61,7 @@ public class LoginHandler {
         logger.info("Logging in to bot Discord account...");
 
         DiscordAPI client = Javacord.getApi(config.botToken, true);
+        client.setWaitForServersOnStartup(false);
         prepareBotClient(client, null);
         return true;
     }
