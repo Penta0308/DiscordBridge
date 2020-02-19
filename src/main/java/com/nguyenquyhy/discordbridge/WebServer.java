@@ -43,12 +43,15 @@ public class WebServer {
             jsonresponse.put("users", coll);
             jsonresponse.put("banned", mod.TempBan.getBanned());
 
+            jsonresponse.put("tick", mod.serverState.getTick());
+
             JSONObject time = new JSONObject();
-            time.put("day", (int)Math.floor(mod.getGame().getServer().getRunningTimeTicks() / 24000.0d));
-            time.put("tick", (int)mod.getGame().getServer().getRunningTimeTicks() % 24000);
+            time.put("day", mod.serverState.getDay());
+            time.put("hour", mod.serverState.getHour());
+            time.put("min", mod.serverState.getMin());
             jsonresponse.put("time", time);
 
-            jsonresponse.put("tps", String.valueOf(mod.getGame().getServer().getTicksPerSecond()));
+            jsonresponse.put("tps", mod.serverState.getTPS());
 
             String response = jsonresponse.toString();
             t.getResponseHeaders().set("Content-Type", "application/json; charset=" + StandardCharsets.UTF_8);

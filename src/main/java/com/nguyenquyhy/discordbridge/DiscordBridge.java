@@ -64,6 +64,8 @@ public class DiscordBridge {
 
     public DiscordCommandHandler discordCommandHandler;
 
+    public ServerState serverState;
+
     protected WebServer server;
 
     @Listener
@@ -78,6 +80,7 @@ public class DiscordBridge {
         TempBan = new TempBanThread();
         discordCommandHandler = new DiscordCommandHandler();
         server = new WebServer();
+        serverState = new ServerState();
     }
 
     @Listener

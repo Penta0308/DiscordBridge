@@ -8,6 +8,6 @@ import org.slf4j.Logger;
 public class DiscordGetTPSCommand implements DiscordCommand {
     @Override
     public void run(Message message, DiscordBridge mod, Logger logger, GlobalConfig config) {
-        message.reply(String.valueOf(mod.getGame().getServer().getTicksPerSecond()));
+        message.reply(String.valueOf(mod.serverState.getTPS()));
     }
 }
