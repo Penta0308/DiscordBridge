@@ -25,13 +25,34 @@ public class TempBanCommand implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         DiscordBridge mod = DiscordBridge.getInstance();
 
-        GameProfile gp = args.<User>getOne(Text.of("player")).get().getProfile();
+        User u = args.<User>getOne(Text.of("player")).get();
+        GameProfile gp = u.getProfile();
 
         Ban ban = Ban.builder().type(BanTypes.PROFILE).profile(gp)
                 .reason(Text.of("The Sponge Council has Spoken!")).build();
         service.addBan(ban);
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Bot account:"));
+        kick(gp);
+
+        mod.getLogger().info("TempBan by Death : " + gp.toString());
+
         return CommandResult.success();
     }
+
+    public CommandResult execute(GameProfile gp) {
+        DiscordBridge mod = DiscordBridge.getInstance();
+
+        Ban ban = Ban.builder().type(BanTypes.PROFILE).profile(gp)
+                .reason(Text.of("The Sponge Council has Spoken!")).build();
+        service.addBan(ban);
+
+        kick(gp);
+
+        mod.getLogger().info("TempBan by Death : " + gp.toString());
+
+        return CommandResult.success();
+    }
+
+    protected void kick(GameProfile gp) { Sponge.getCommandManager().process(DiscordBridge.getInstance().getGame().getServer().getConsole(), "kick " + gp.getName().orElse("")); }
+    protected void kick(String n) { Sponge.getCommandManager().process(DiscordBridge.getInstance().getGame().getServer().getConsole(), "kick " + n); }
 }

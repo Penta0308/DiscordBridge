@@ -65,7 +65,7 @@ public class CommandRegistry {
                 .executor(new OtpCommand())
                 .build();
 
-        CommandSpec TempBanCmd = CommandSpec.builder()
+        CommandSpec tempBanCmd = CommandSpec.builder()
                 .permission("discordbridge.tempban")
                 .description(Text.of("Ban User Temporally"))
                 .arguments(
@@ -89,6 +89,7 @@ public class CommandRegistry {
 
         DiscordBridge mod = DiscordBridge.getInstance();
         mod.getGame().getCommandManager().register(mod, mainCommandSpec, "discord", "d");
+        mod.getGame().getCommandManager().register(mod, tempBanCmd, "tempban");
 
         mod.getLogger().info("/discord command registered.");
     }

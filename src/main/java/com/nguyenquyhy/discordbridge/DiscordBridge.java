@@ -1,11 +1,9 @@
 package com.nguyenquyhy.discordbridge;
 
 import com.google.inject.Inject;
+import com.google.inject.internal.asm.$ClassWriter;
 import com.nguyenquyhy.discordbridge.database.IStorage;
-import com.nguyenquyhy.discordbridge.discordcommands.DiscordCommandHandler;
-import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetTPSCommand;
-import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetTimeCommand;
-import com.nguyenquyhy.discordbridge.discordcommands.DiscordGetUsersCommand;
+import com.nguyenquyhy.discordbridge.discordcommands.*;
 import com.nguyenquyhy.discordbridge.listeners.ChatListener;
 import com.nguyenquyhy.discordbridge.listeners.ClientConnectionListener;
 import com.nguyenquyhy.discordbridge.listeners.DeathListener;
@@ -185,5 +183,6 @@ public class DiscordBridge {
         discordCommandHandler.registerDiscordCommand("time", new DiscordGetTimeCommand());
         discordCommandHandler.registerDiscordCommand("tick", new DiscordGetTPSCommand());
         discordCommandHandler.registerDiscordCommand("users", new DiscordGetUsersCommand());
+        discordCommandHandler.registerDiscordCommand("whitelist", new DiscordWhiteListAddCommand());
     }
 }

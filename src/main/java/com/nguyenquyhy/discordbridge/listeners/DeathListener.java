@@ -22,7 +22,7 @@ public class DeathListener {
         if (!(event.getTargetEntity() instanceof Player) || event.isMessageCancelled() || StringUtils.isBlank(event.getMessage().toPlain())) return;
         Player player = (Player) event.getTargetEntity();
 
-        mod.TempBan.setTempBanList(player.getProfile(), config.jcsConfig.ban.banDuration);
+        mod.TempBan.setTempBanList(player.getProfile(), config.banDuration);
 
         if (client != null) {
             for (ChannelConfig channelConfig : config.channels) {

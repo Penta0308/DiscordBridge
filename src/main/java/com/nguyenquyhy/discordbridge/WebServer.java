@@ -16,7 +16,7 @@ public class WebServer {
     HttpServer server = null;
     public void start() {
         try {
-            server = HttpServer.create(new InetSocketAddress(DiscordBridge.getInstance().getConfig().jcsConfig.wsc.port), 0);
+            server = HttpServer.create(new InetSocketAddress(DiscordBridge.getInstance().getConfig().webServerPort), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,11 +44,11 @@ public class WebServer {
             jsonresponse.put("banned", mod.TempBan.getBanned());
 
             JSONObject time = new JSONObject();
-            time.put("day", Math.floor(mod.getGame().getServer().getRunningTimeTicks() / 2400.0d));
-            time.put("tick", mod.getGame().getServer().getRunningTimeTicks() % 2400);
+            time.put("day", (int)Math.floor(mod.getGame().getServer().getRunningTimeTicks() / 2400.0d));
+            time.put("tick", (int)mod.getGame().getServer().getRunningTimeTicks() % 2400);
             jsonresponse.put("time", time);
 
-            jsonresponse.put("tps", mod.getGame().getServer().getTicksPerSecond());
+            jsonresponse.put("tps", String.valueOf(mod.getGame().getServer().getTicksPerSecond()));
 
             String response = jsonresponse.toString();
             t.getResponseHeaders().set("Content-Type", "application/json; charset=" + StandardCharsets.UTF_8);

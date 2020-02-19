@@ -22,8 +22,9 @@ public class GlobalConfig {
         minecraftBroadcastTemplate = "&2<BROADCAST> %s";
         botToken = "";
         tokenStore = TokenStore.JSON;
-        jcsConfig = new JCSConfig();
-        jcsConfig.initializeDefault();
+        banDuration = 0;
+        webServerPort = 8081;
+        adminTags = "";
     }
 
     @Setting
@@ -41,12 +42,15 @@ public class GlobalConfig {
     @Setting
     public List<ChannelConfig> channels;
     @Setting
-    public JCSConfig jcsConfig;
+    public Integer banDuration;
+    @Setting
+    public Integer webServerPort;
+    @Setting
+    public String adminTags;
 
     public void migrate() {
         if (channels != null) {
             channels.forEach(ChannelConfig::migrate);
         }
-        if (jcsConfig != null) jcsConfig.migrate();
     }
 }
