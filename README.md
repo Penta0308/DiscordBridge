@@ -1,4 +1,7 @@
 # Discord Bridge
+
+Author https://github.com/nguyenquyhy/DiscordBridge
+
 This is a [Sponge](http://spongepowered.com) plugin to integrate [Minecraft](https://minecraft.net) server with a [Discord](https://discordapp.com) channel. 
 
 ## Features
