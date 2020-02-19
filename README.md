@@ -1,4 +1,7 @@
 # Discord Bridge
+
+Author https://github.com/nguyenquyhy/DiscordBridge
+
 This is a [Sponge](http://spongepowered.com) plugin to integrate [Minecraft](https://minecraft.net) server with a [Discord](https://discordapp.com) channel. 
 
 ## Features
@@ -14,11 +17,13 @@ This is a [Sponge](http://spongepowered.com) plugin to integrate [Minecraft](htt
 - Set game activity of the bot
 - Ignore Discord messages from all bots and/or blacklist certain prefixes
 - Support One-Time Password
-- **New in 2.3.0**
-  - Mentions in Discord show properly in Minecraft with configurable templates
-  - Mentions from Minecraft are supported with permission control (check **Additional Permissions**)
-  - Attachments in Discord shows proper links in Minecraft
-  - Support Minecraft templates based on Discord roles
+- Mentions in Discord show properly in Minecraft with configurable templates
+- Mentions from Minecraft are supported with permission control (check **Additional Permissions**)
+- Attachments in Discord shows proper links in Minecraft
+- Support Minecraft templates based on Discord roles
+- **New in 4.0.0**
+  - HTTP-Based JSON Data Server
+  - TempBan Feature
 
 ## Getting Started for server owners and players
 
@@ -62,6 +67,8 @@ Some ideas for future commands
 |---------|------|
 | `/discord config` | Show current configuration |
 | `/discord status` | Show current Discord account |
+
+| `/tempban <player> <secs>` |
 
 ## Configurations
 
