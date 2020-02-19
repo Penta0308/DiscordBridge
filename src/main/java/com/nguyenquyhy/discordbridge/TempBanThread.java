@@ -3,17 +3,17 @@ package com.nguyenquyhy.discordbridge;
 import com.nguyenquyhy.discordbridge.commands.TempBanCommand;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.ban.BanService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class TempBanThread {
-    private final Map<String, Integer> tempbanlist = new HashMap<>();
-
-    private final Map<String, GameProfile> gplist = new HashMap<>();
+    private Map<String, Integer> tempbanlist = new HashMap<>();
 
     final ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
 
@@ -21,23 +21,33 @@ public class TempBanThread {
 
     TempBanThread() { service = Sponge.getServiceManager().provide(BanService.class).get(); }
 
-    public void start() { exec.scheduleAtFixedRate(() -> {
+    protected class Pardon extends Thread {
+        private String u; public Pardon(String _u) { u = _u; }
+        @Override
+        public void run() {
+            super.run();
             try {
-                tempbanlist.forEach((g, t) -> {
-                    if(t == 0) {
-                        service.pardon(gplist.get(g));
-                        DiscordBridge.getInstance().getLogger().info("Pardoning : " + g);
-                        tempbanlist.put(g, -1);
-                    } else if (t == -1) {}
-                    else tempbanlist.put(g, t - 1);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            } }, 0, 1, TimeUnit.SECONDS); }
+                final GameProfile gp = Sponge.getServer().getGameProfileManager().get(u).get();
+                Task.builder().execute( () -> service.pardon(gp) ).submit(DiscordBridge.getInstance());
+            }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            catch (ExecutionException e) { e.printStackTrace(); }
+        }
+    }
+
+    public void start() {
+        exec.scheduleAtFixedRate(() -> tempbanlist.forEach((g, t) -> {
+            if (t < 1) {
+                new Pardon(g).start();
+                DiscordBridge.getInstance().getLogger().info("Pardoned : " + g);
+                tempbanlist.remove(g);
+            } else tempbanlist.replace(g, t - 1);
+        }), 0, 1, TimeUnit.SECONDS);
+    }
 
     public void stop() {
         exec.shutdown();
-        tempbanlist.forEach((g, t) -> service.pardon(gplist.get(g)));
+        tempbanlist.forEach( (g, t) -> new Pardon(g).start() );
     }
 
     public Map<String, Integer> getBanned() {
@@ -51,6 +61,5 @@ public class TempBanThread {
     public void setTempBanList(GameProfile gp, int secs) {
         new TempBanCommand().execute(gp);
         tempbanlist.put(gp.getName().orElse(""), secs);
-        gplist.put(gp.getName().orElse(""), gp);
     }
 }

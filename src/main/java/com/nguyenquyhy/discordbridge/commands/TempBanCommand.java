@@ -34,7 +34,7 @@ public class TempBanCommand implements CommandExecutor {
 
         kick(gp);
 
-        mod.getLogger().info("TempBan by Death : " + gp.toString());
+        mod.getLogger().info("TempBan by Death : " + gp.getName().orElse(""));
 
         return CommandResult.success();
     }
@@ -48,7 +48,7 @@ public class TempBanCommand implements CommandExecutor {
 
         kick(gp);
 
-        mod.getLogger().info("TempBan by Death : " + gp.toString());
+        mod.getLogger().info("TempBan by Death : " + gp.getName().orElse(""));
 
         return CommandResult.success();
     }
