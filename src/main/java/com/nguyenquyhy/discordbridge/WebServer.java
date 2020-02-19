@@ -44,8 +44,8 @@ public class WebServer {
             jsonresponse.put("banned", mod.TempBan.getBanned());
 
             JSONObject time = new JSONObject();
-            time.put("day", (int)Math.floor(mod.getGame().getServer().getRunningTimeTicks() / 2400.0d));
-            time.put("tick", (int)mod.getGame().getServer().getRunningTimeTicks() % 2400);
+            time.put("day", (int)Math.floor(mod.getGame().getServer().getRunningTimeTicks() / 24000.0d));
+            time.put("tick", (int)mod.getGame().getServer().getRunningTimeTicks() % 24000);
             jsonresponse.put("time", time);
 
             jsonresponse.put("tps", String.valueOf(mod.getGame().getServer().getTicksPerSecond()));
