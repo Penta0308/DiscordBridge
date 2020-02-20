@@ -37,10 +37,9 @@ public class WebServer {
             JSONObject jsonresponse = new JSONObject();
 
             Set<String> coll = new HashSet<>();
-
             mod.getGame().getServer().getOnlinePlayers().forEach(k -> coll.add(k.getName()));
-
             jsonresponse.put("users", coll);
+
             jsonresponse.put("banned", mod.TempBan.getBanned());
 
             jsonresponse.put("tick", mod.serverState.getTick());
