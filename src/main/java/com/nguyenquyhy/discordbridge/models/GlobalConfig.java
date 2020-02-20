@@ -47,6 +47,8 @@ public class GlobalConfig {
     public Integer webServerPort;
     @Setting
     public String adminTags;
+    @Setting
+    public String webServerRoot;
 
     public void migrate() {
         if (channels != null) {
