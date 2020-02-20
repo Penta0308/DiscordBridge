@@ -23,10 +23,10 @@ public class WebServer {
         }
         server.createContext("/data.json", new JSONSender());
         server.createContext("/", new HTTPSender("text/html", Paths.get(
-                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "index.html"
+                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/index.html"
         )));
         server.createContext("/favicon.png", new FileSender("image/png", Paths.get(
-                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "favicon.png"
+                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/favicon.png"
         )));
         server.setExecutor(null); // creates a default executor
         server.start();
