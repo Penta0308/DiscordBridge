@@ -1,5 +1,7 @@
 package com.nguyenquyhy.discordbridge;
 
+import com.nguyenquyhy.discordbridge.logics.ConfigHandler;
+import com.nguyenquyhy.discordbridge.models.GlobalConfig;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -15,6 +18,9 @@ import java.util.Set;
 
 public class WebServer {
     HttpServer server = null;
+    DiscordBridge mod = DiscordBridge.getInstance();
+    GlobalConfig config = mod.getConfig();
+
     public void start() {
         try {
             server = HttpServer.create(new InetSocketAddress(DiscordBridge.getInstance().getConfig().webServerPort), 0);
@@ -22,12 +28,13 @@ public class WebServer {
             e.printStackTrace();
         }
         server.createContext("/data.json", new JSONSender());
-        server.createContext("/", new HTTPSender("text/html", Paths.get(
-                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/index.html"
+        server.createContext("/index.html", new HTTPSender("text/html", Paths.get(
+                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/" + config.webServerDir + "index.html"
         )));
-        server.createContext("/favicon.png", new FileSender("image/png", Paths.get(
-                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/favicon.png"
+        server.createContext("/favicon.ico", new FileSender("image/png", Paths.get(
+                DiscordBridge.getInstance().getConfigDir().toAbsolutePath().toString() + "/" + config.webServerDir + "favicon.png"
         )));
+        server.createContext("/", new HTTPRedirect("/index.html"));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -74,6 +81,17 @@ public class WebServer {
         }
     }
 
+    class HTTPRedirect implements HttpHandler {
+        String to;
+        public HTTPRedirect(String _to) { to = _to; }
+
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            t.getResponseHeaders().set("Location", to);
+            t.sendResponseHeaders(301, 0);
+        }
+    }
+
     class FileSender implements HttpHandler {
         Path p;
         String m;
@@ -82,14 +100,13 @@ public class WebServer {
         @Override
         public void handle(HttpExchange t) throws IOException {
             DiscordBridge.getInstance().getLogger().info("Web Request : " + p.toString());
-            byte[] response = new byte[65536];
-            InputStream is = new FileInputStream(p.toString());
-            int numOfBytes = is.read(response);
+            byte[] response = new byte[262144];
+            File file = p.toFile();
 
             t.getResponseHeaders().set("Content-Type", m + ";");
-            t.sendResponseHeaders(200, numOfBytes);
+            t.sendResponseHeaders(200, file.length());
             OutputStream os = t.getResponseBody();
-            os.write(response, 0, numOfBytes - 1);
+            Files.copy(file.toPath(), os);
             os.close();
         }
     }
@@ -99,7 +116,7 @@ public class WebServer {
         public void handle(HttpExchange t) throws IOException {
             DiscordBridge mod = DiscordBridge.getInstance();
 
-            mod.getLogger().info("JSON Request");
+            //mod.getLogger().info("JSON Request");
 
             JSONObject jsonresponse = new JSONObject();
 

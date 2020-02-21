@@ -34,6 +34,9 @@ public class ReconnectCommand implements CommandExecutor {
                 player.ifPresent(LoginHandler::loginHumanAccount);
             }
 
+            DiscordBridge.getInstance().server.stop();
+            DiscordBridge.getInstance().server.start();
+
             return CommandResult.success();
         } catch (Exception e) {
             logger.error("Cannot reload configuration!", e);

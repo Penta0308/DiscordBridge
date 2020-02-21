@@ -8,12 +8,11 @@ import org.spongepowered.api.entity.living.player.Player;
 
 public class DiscordGetUsersCommand implements DiscordCommand {
     public void run(Message message, DiscordBridge mod, Logger logger, GlobalConfig config) {
-        StringBuffer rm = new StringBuffer();
+        StringBuilder rm = new StringBuilder();
         mod.getGame().getServer().getOnlinePlayers().forEach(p -> {
             rm.append(p.getName());
             rm.append(System.lineSeparator());
         });
-        rm.setLength(rm.length() - System.lineSeparator().length());
         message.reply(rm.toString());
     }
 }

@@ -8,18 +8,25 @@ import org.spongepowered.api.service.ban.BanService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class TempBanThread {
-    private Map<String, Integer> tempbanlist = new HashMap<>();
+    private Map<String, Integer> tempbanlist = new ConcurrentHashMap<>();
 
     final ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
 
     BanService service;
 
-    TempBanThread() { service = Sponge.getServiceManager().provide(BanService.class).get(); }
+    DiscordBridge mod;
+
+    TempBanThread() {
+        mod = DiscordBridge.getInstance();
+        service = Sponge.getServiceManager().provide(BanService.class).get();
+    }
 
     protected class Pardon extends Thread {
         private String u; public Pardon(String _u) { u = _u; }
@@ -28,7 +35,7 @@ public class TempBanThread {
             super.run();
             try {
                 final GameProfile gp = Sponge.getServer().getGameProfileManager().get(u).get();
-                Task.builder().execute( () -> service.pardon(gp) ).submit(DiscordBridge.getInstance());
+                Task.builder().execute( () -> service.pardon(gp) ).submit(mod);
             }
             catch (InterruptedException e) { e.printStackTrace(); }
             catch (ExecutionException e) { e.printStackTrace(); }
@@ -39,7 +46,7 @@ public class TempBanThread {
         exec.scheduleAtFixedRate(() -> tempbanlist.forEach((g, t) -> {
             if (t < 1) {
                 new Pardon(g).start();
-                DiscordBridge.getInstance().getLogger().info("Pardoned : " + g);
+                mod.getLogger().info("Pardoned : " + g);
                 tempbanlist.remove(g);
             } else tempbanlist.replace(g, t - 1);
         }), 0, 1, TimeUnit.SECONDS);
@@ -53,13 +60,19 @@ public class TempBanThread {
     public Map<String, Integer> getBanned() {
         Map<String, Integer> result = new HashMap<>();
         tempbanlist.forEach((g, t) -> {
-            if (t > 0) result.put(g, t);
+            if (t > 0) {
+                try {
+                    result.put(Sponge.getServer().getGameProfileManager().get(UUID.fromString(g)).get().getName().get(), t);
+                }
+                catch (InterruptedException e) { e.printStackTrace(); }
+                catch (ExecutionException e) { e.printStackTrace(); }
+            }
         });
         return result;
     }
 
     public void setTempBanList(GameProfile gp, int secs) {
         new TempBanCommand().execute(gp);
-        tempbanlist.put(gp.getName().orElse(""), secs);
+        tempbanlist.put(gp.getUniqueId().toString(), secs);
     }
 }

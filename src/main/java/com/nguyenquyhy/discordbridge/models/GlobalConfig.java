@@ -24,6 +24,7 @@ public class GlobalConfig {
         tokenStore = TokenStore.JSON;
         banDuration = 0;
         webServerPort = 8081;
+        webServerDir = "";
         adminTags = "";
     }
 
@@ -46,9 +47,9 @@ public class GlobalConfig {
     @Setting
     public Integer webServerPort;
     @Setting
-    public String adminTags;
+    public String webServerDir;
     @Setting
-    public String webServerRoot;
+    public String adminTags;
 
     public void migrate() {
         if (channels != null) {

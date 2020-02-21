@@ -66,7 +66,7 @@ public class DiscordBridge {
 
     public ServerState serverState;
 
-    protected WebServer server;
+    public WebServer server;
 
     @Listener
     public void onPreInitialization(GamePreInitializationEvent event) throws IOException, ObjectMappingException {
