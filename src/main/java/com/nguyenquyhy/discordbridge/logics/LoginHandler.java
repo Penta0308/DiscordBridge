@@ -193,9 +193,7 @@ public class LoginHandler {
             @Override
             public void onSuccess(@Nullable DiscordAPI discordAPI) {
                 client.registerListener((MessageCreateListener) (client, message)
-                        -> {
-                    MessageHandler.discordMessageReceived(message);
-                });
+                        -> MessageHandler.discordMessageReceived(message));
 
                 User user = discordAPI.getYourself();
                 String name = "unknown";

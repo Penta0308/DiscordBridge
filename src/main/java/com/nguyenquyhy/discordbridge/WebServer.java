@@ -1,6 +1,5 @@
 package com.nguyenquyhy.discordbridge;
 
-import com.nguyenquyhy.discordbridge.logics.ConfigHandler;
 import com.nguyenquyhy.discordbridge.models.GlobalConfig;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -64,7 +63,7 @@ public class WebServer {
         return stringBuilder.toString();
     }
 
-    class HTTPSender implements HttpHandler {
+    static class HTTPSender implements HttpHandler {
         Path p;
         String m;
         public HTTPSender(String _m, Path _p) { m = _m; p = _p; }
@@ -81,7 +80,7 @@ public class WebServer {
         }
     }
 
-    class HTTPRedirect implements HttpHandler {
+    static class HTTPRedirect implements HttpHandler {
         String to;
         public HTTPRedirect(String _to) { to = _to; }
 
@@ -92,7 +91,7 @@ public class WebServer {
         }
     }
 
-    class FileSender implements HttpHandler {
+    static class FileSender implements HttpHandler {
         Path p;
         String m;
         public FileSender(String _m, Path _p) { m = _m; p = _p; }
@@ -100,7 +99,6 @@ public class WebServer {
         @Override
         public void handle(HttpExchange t) throws IOException {
             DiscordBridge.getInstance().getLogger().info("Web Request : " + p.toString());
-            byte[] response = new byte[262144];
             File file = p.toFile();
 
             t.getResponseHeaders().set("Content-Type", m + ";");
@@ -111,7 +109,7 @@ public class WebServer {
         }
     }
 
-    class JSONSender implements HttpHandler {
+    static class JSONSender implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
             DiscordBridge mod = DiscordBridge.getInstance();
@@ -124,7 +122,7 @@ public class WebServer {
             mod.getGame().getServer().getOnlinePlayers().forEach(k -> coll.add(k.getName()));
             jsonresponse.put("users", coll);
 
-            jsonresponse.put("banned", mod.TempBan.getBanned());
+            jsonresponse.put("banned", DiscordBridge.TempBan.getBanned());
 
             jsonresponse.put("tick", mod.serverState.getTick());
 

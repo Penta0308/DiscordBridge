@@ -1,7 +1,6 @@
 package com.nguyenquyhy.discordbridge;
 
 import com.google.inject.Inject;
-import com.google.inject.internal.asm.$ClassWriter;
 import com.nguyenquyhy.discordbridge.database.IStorage;
 import com.nguyenquyhy.discordbridge.discordcommands.*;
 import com.nguyenquyhy.discordbridge.listeners.ChatListener;

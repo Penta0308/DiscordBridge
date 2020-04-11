@@ -9,8 +9,6 @@ import org.spongepowered.api.service.ban.BanService;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -55,7 +53,8 @@ public class TempBanThread {
 
     TempBanThread() {
         mod = DiscordBridge.getInstance();
-        service = DiscordBridge.getInstance().getGame().getServiceManager().provide(BanService.class).get();
+        Optional<BanService> bansrvopt = DiscordBridge.getInstance().getGame().getServiceManager().provide(BanService.class);
+        bansrvopt.ifPresent(banService -> service = banService);
     }
 
     protected class Pardon extends Thread {
@@ -97,8 +96,7 @@ public class TempBanThread {
                 try {
                     result.put(Sponge.getServer().getGameProfileManager().get(UUID.fromString(g)).get().getName().get(), t);
                 }
-                catch (InterruptedException e) { e.printStackTrace(); }
-                catch (ExecutionException e) { e.printStackTrace(); }
+                catch (InterruptedException | ExecutionException e) { e.printStackTrace(); }
             }
         });
         return result;
