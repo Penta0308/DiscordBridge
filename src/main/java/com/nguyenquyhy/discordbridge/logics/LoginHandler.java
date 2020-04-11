@@ -40,8 +40,10 @@ import java.util.UUID;
 public class LoginHandler {
     private static DiscordBridge mod = DiscordBridge.getInstance();
     private static Logger logger = mod.getLogger();
+    private static boolean loggedin = false;
 
     public static boolean loginBotAccount() {
+        if(loggedin) return true;
         GlobalConfig config = mod.getConfig();
 
         if (StringUtils.isBlank(config.botToken)) {
@@ -63,6 +65,7 @@ public class LoginHandler {
         DiscordAPI client = Javacord.getApi(config.botToken, true);
         client.setWaitForServersOnStartup(false);
         prepareBotClient(client, null);
+        loggedin = true;
         return true;
     }
 

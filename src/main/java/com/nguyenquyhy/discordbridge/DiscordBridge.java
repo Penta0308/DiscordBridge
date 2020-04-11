@@ -60,7 +60,7 @@ public class DiscordBridge {
 
     private static DiscordBridge instance;
 
-    public TempBanThread TempBan;
+    public static TempBanThread TempBan;
 
     public DiscordCommandHandler discordCommandHandler;
 
