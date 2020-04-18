@@ -6,7 +6,7 @@ plugins {
 
 defaultTasks 'build', 'shadowJar'
 
-group = 'com.nguyenquyhy'
+group = 'tk.skmserver'
 version = '4.0.0'
 description = 'A plugin to connect Discord and Minecraft'
 sourceCompatibility = 1.8
@@ -21,20 +21,26 @@ repositories {
         name 'sponge'
         url 'http://repo.spongepowered.org/maven'
     }
-    maven {
+    /*maven {
         name 'javacord-repo'
         url 'http://repo.bastian-oppermann.de'
-    }
+    }*/
 }
 
 dependencies {
     compile('org.spongepowered:spongeapi:5.1.0')
-    compile('de.btobastian.javacord:javacord:2.0.17:shaded')
+    //compile('de.btobastian.javacord:javacord:2.0.17:shaded')
+    implementation 'org.javacord:javacord:3.0.5'
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20190722'
+
 }
 
 shadowJar {
     dependencies {
-        include dependency('de.btobastian.javacord:javacord:2.0.17:shaded')
+        include dependency('org.json:json:20190722')
+        include dependency('org.javacord:javacord:3.0.5')
+        //include dependency('de.btobastian.javacord:javacord:2.0.17:shaded')
         include dependency('commons-logging:commons-logging')
         include dependency('org.apache.commons:commons-lang3')
         include dependency('org.apache.httpcomponents:httpcore')
@@ -43,8 +49,8 @@ shadowJar {
 //        include dependency('org.java-websocket:Java-WebSocket')
 //        include dependency('net.jodah:typetools')
 
-        relocate 'org.apache.http', 'shaded.apache.http'
-        relocate 'org.apache.commons', 'shaded.apache.commons'
+        //relocate 'org.apache.http', 'shaded.apache.http'
+        //relocate 'org.apache.commons', 'shaded.apache.commons'
     }
 }
 
