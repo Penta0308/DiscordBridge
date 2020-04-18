@@ -80,7 +80,7 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.DiscordBridge [build]">
+  <component name="RunManager" selected="Gradle.DiscordBridge [jar]">
     <configuration name="DiscordBridge [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -100,8 +100,28 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="DiscordBridge [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.DiscordBridge [jar]" />
         <item itemvalue="Gradle.DiscordBridge [build]" />
       </list>
     </recent_temporary>
@@ -130,7 +150,7 @@
       <updated>1581952973025</updated>
       <workItem from="1586358182608" duration="154000" />
       <workItem from="1586361487842" duration="56000" />
-      <workItem from="1586602321092" duration="2407000" />
+      <workItem from="1586602321092" duration="5160000" />
     </task>
     <servers />
   </component>
@@ -166,25 +186,25 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="549" y="176" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1581954193947" />
-    <state width="1493" height="209" key="GridCell.Tab.0.bottom" timestamp="1586604753425">
+    <state width="1493" height="209" key="GridCell.Tab.0.bottom" timestamp="1586609236147">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="209" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586604753425" />
+    <state width="1493" height="209" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586609236147" />
     <state width="1493" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1582812213175" />
-    <state width="1493" height="209" key="GridCell.Tab.0.center" timestamp="1586604753425">
+    <state width="1493" height="209" key="GridCell.Tab.0.center" timestamp="1586609236147">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="209" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586604753425" />
+    <state width="1493" height="209" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586609236147" />
     <state width="1493" height="213" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1582812213174" />
-    <state width="1493" height="209" key="GridCell.Tab.0.left" timestamp="1586604753425">
+    <state width="1493" height="209" key="GridCell.Tab.0.left" timestamp="1586609236147">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="209" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586604753421" />
+    <state width="1493" height="209" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586609236147" />
     <state width="1493" height="213" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1582812213174" />
-    <state width="1493" height="209" key="GridCell.Tab.0.right" timestamp="1586604753425">
+    <state width="1493" height="209" key="GridCell.Tab.0.right" timestamp="1586609236147">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="209" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586604753425" />
+    <state width="1493" height="209" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586609236147" />
     <state width="1493" height="213" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1582812213175" />
     <state x="249" y="0" key="SettingsEditor" timestamp="1581955793024">
       <screen x="0" y="0" width="1536" height="834" />
